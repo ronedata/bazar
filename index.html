@@ -131,6 +131,7 @@
     <!-- Big buttons (will be hidden when clicked) -->
     <div class="big-btn">
         <button id="showOptions" onclick="showSmallButtons()" disabled>Show Bazar Options</button>
+        <button class="refresh-btn" onclick="openScriptUrl()">Date Select</button>
         <button class="refresh-btn" onclick="refreshPage()">Refresh</button>
     </div>
 
@@ -182,6 +183,10 @@
             const iframe = document.getElementById('iframe');
             iframe.src = url;
             iframe.classList.add('active');
+        }
+        
+        function openScriptUrl() {
+            window.open("https://script.google.com/macros/s/AKfycbzINU7YYulIXVcYcxKPKCdHXI0ElAjQQrFaKFchU2abNGV2rz_RFZMhh9ocIplsyw8rYg/exec", "_blank");
         }
 
         // Check connection status on page load and when it changes
