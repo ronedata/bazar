@@ -1,198 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bazar Management</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background-color: #f8f9fa;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bazar Management</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #f8f9fa;
+    }
 
-        .status {
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 10px;
-            color: #fff;
-            padding: 10px;
-            background-color: #28a745;
-        }
+    .status {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #fff;
+      padding: 10px;
+      background-color: #28a745;
+    }
 
-        .status.offline {
-            background-color: #dc3545;
-        }
+    .status.offline {
+      background-color: #dc3545;
+    }
 
-        .big-btn, .small-btns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            width: 100%;
-            text-align: center;
-        }
+    .big-btn, .small-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      width: 100%;
+      text-align: center;
+    }
 
-        .big-btn {
-            flex-direction: column;
-            align-items: center;
-            margin-top: 30px;
-            width: 100%;
-            display: flex; 
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    .big-btn {
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+      width: 100%;
+      display: flex; 
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-        .big-btn button {
-            padding: 15px 20px;
-            font-size: 18px;
-            border: none;
-            border-radius: 4px;
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color .3s;
-            width: 100%;
-            max-width: 400px;
-        }
+    .big-btn button {
+      padding: 15px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color .3s;
+      width: 100%;
+      max-width: 400px;
+    }
 
-        .big-btn button:disabled {
-            background-color: #6c757d;
-            cursor: not-allowed;
-        }
+    .big-btn button:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+    }
 
-        .big-btn button:hover:enabled {
-            background-color: #0056b3;
-        }
+    .big-btn button:hover:enabled {
+      background-color: #0056b3;
+    }
 
-        .small-btns {
-            display: none;
-            flex-wrap: wrap;
-            gap: 10px;
-            width: 100%;
-        }
+    .small-btns {
+      display: none;
+      flex-wrap: wrap;
+      gap: 10px;
+      width: 100%;
+    }
 
-        .small-btns button {
-            padding: 15px;
-            font-size: 16px;
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            width: 48%;
-            cursor: pointer;
-            transition: background-color .3s;
-        }
+    .small-btns button {
+      padding: 15px;
+      font-size: 16px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      width: 48%;
+      cursor: pointer;
+      transition: background-color .3s;
+    }
 
-        .small-btns button:hover {
-            background-color: #1e7e34;
-        }
+    .small-btns button:hover {
+      background-color: #1e7e34;
+    }
 
-        iframe {
-            width: 100%;
-            height: calc(100vh - 150px);
-            border: none;
-            margin-top: 10px;
-            display: none;
-        }
+    iframe {
+      width: 100%;
+      height: calc(100vh - 150px);
+      border: none;
+      margin-top: 10px;
+      display: none;
+    }
 
-        iframe.active {
-            display: block;
-        }
+    iframe.active {
+      display: block;
+    }
 
-        .refresh-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #17a2b8;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color .3s;
-        }
+    .refresh-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #17a2b8;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color .3s;
+    }
 
-        .refresh-btn:hover {
-            background-color: #138496;
-        }
-    </style>
+    .refresh-btn:hover {
+      background-color: #138496;
+    }
+
+    /* === Loading Spinner Styles === */
+    #loadingSpinner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      display: none;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 8px solid #ccc;
+      border-top: 8px solid #007bff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-    <!-- Internet Status -->
-    <div id="status" class="status">Checking connection...</div>
+  <!-- Internet Status -->
+  <div id="status" class="status">Checking connection...</div>
 
-    <!-- Big buttons (will be hidden when clicked) -->
-    <div class="big-btn">
-        <button id="showOptions" onclick="showSmallButtons()" disabled>Show Bazar Options</button>
-        <button class="refresh-btn" onclick="openScriptUrl()">Date Select</button>
-        <button class="refresh-btn" onclick="refreshPage()">Refresh</button>
-    </div>
+  <!-- Big Buttons -->
+  <div class="big-btn">
+    <button id="showOptions" onclick="showSmallButtons()" disabled>Show Bazar Options</button>
+    <button class="refresh-btn" onclick="openScriptUrl()">Date Select</button>
+    <button class="refresh-btn" onclick="refreshPage()">Refresh</button>
+  </div>
 
-    <!-- Small buttons (will be shown when big-btn is clicked) -->
-    <div class="small-btns">
-        <button onclick="loadIframe('https://forms.gle/zYes6GTZEUPeWCrN7')">Hisab Add</button>
-        <button onclick="loadIframe('https://docs.google.com/document/d/1xRjHrGJ7c0HTrplnSsym7YmuVb_U2MmgcB8fV3cvA_k/edit?usp=sharing')">Report</button>
-        <button onclick="loadIframe('https://docs.google.com/document/d/1Jj98DmEXVG9vV74Qim4Grs8xuCmbMdEFKCxGtvcDzHs/edit?usp=sharing')">Monthly Report</button>
-        <button onclick="loadIframe('https://docs.google.com/document/d/1sjffV8Ovd2Q1u35AVFbftM_xSRt3SVa9Oci_nijcXA0/edit?usp=sharing')">Item with Report</button>
-        <button onclick="loadIframe('https://forms.gle/bcf2RM7uhpcqVBbN7')">Item Add</button>
-        <iframe id="iframe"></iframe>
-    </div>
+  <!-- Small Buttons -->
+  <div class="small-btns">
+    <button onclick="loadIframe('https://forms.gle/zYes6GTZEUPeWCrN7')">Hisab Add</button>
+    <button onclick="loadIframe('https://docs.google.com/document/d/1xRjHrGJ7c0HTrplnSsym7YmuVb_U2MmgcB8fV3cvA_k/edit?usp=sharing')">Report</button>
+    <button onclick="loadIframe('https://docs.google.com/document/d/1Jj98DmEXVG9vV74Qim4Grs8xuCmbMdEFKCxGtvcDzHs/edit?usp=sharing')">Monthly Report</button>
+    <button onclick="loadIframe('https://docs.google.com/document/d/1sjffV8Ovd2Q1u35AVFbftM_xSRt3SVa9Oci_nijcXA0/edit?usp=sharing')">Item with Report</button>
+    <button onclick="loadIframe('https://forms.gle/bcf2RM7uhpcqVBbN7')">Item Add</button>
 
-    <script>
-        // Update connection status and enable/disable button
-        function updateStatus() {
-            const statusDiv = document.getElementById('status');
-            const showOptionsBtn = document.getElementById('showOptions');
+    <!-- Iframe Section -->
+    <iframe id="iframe"></iframe>
+  </div>
 
-            if (navigator.onLine) {
-                statusDiv.textContent = 'Online';
-                statusDiv.classList.remove('offline');
-                statusDiv.classList.add('online');
-                showOptionsBtn.disabled = false;
-            } else {
-                statusDiv.textContent = 'Offline';
-                statusDiv.classList.remove('online');
-                statusDiv.classList.add('offline');
-                showOptionsBtn.disabled = true;
-            }
-        }
+  <!-- Loading Spinner -->
+  <div id="loadingSpinner">
+    <div class="spinner"></div>
+  </div>
 
-        // Refresh the page
-        function refreshPage() {
-            location.reload();
-        }
+  <script>
+    function updateStatus() {
+      const statusDiv = document.getElementById('status');
+      const showOptionsBtn = document.getElementById('showOptions');
 
-        // Hide status and show small buttons
-        function showSmallButtons() {
-            document.querySelector('.big-btn').style.display = 'none';
-            document.querySelector('.small-btns').style.display = 'flex';
+      if (navigator.onLine) {
+        statusDiv.textContent = 'Online';
+        statusDiv.classList.remove('offline');
+        statusDiv.classList.add('online');
+        showOptionsBtn.disabled = false;
+      } else {
+        statusDiv.textContent = 'Offline';
+        statusDiv.classList.remove('online');
+        statusDiv.classList.add('offline');
+        showOptionsBtn.disabled = true;
+      }
+    }
 
-            // Hide the status
-            const statusDiv = document.getElementById('status');
-            statusDiv.style.display = 'none';
-        }
+    function refreshPage() {
+      location.reload();
+    }
 
-        function loadIframe(url) {
-            const iframe = document.getElementById('iframe');
-            iframe.src = url;
-            iframe.classList.add('active');
-        }
-        
-        function openScriptUrl() {
-            window.open("https://script.google.com/macros/s/AKfycbzINU7YYulIXVcYcxKPKCdHXI0ElAjQQrFaKFchU2abNGV2rz_RFZMhh9ocIplsyw8rYg/exec", "_blank");
-        }
+    function showSmallButtons() {
+      document.querySelector('.big-btn').style.display = 'none';
+      document.querySelector('.small-btns').style.display = 'flex';
+      document.getElementById('status').style.display = 'none';
+    }
 
-        // Check connection status on page load and when it changes
-        window.addEventListener('load', updateStatus);
-        window.addEventListener('online', updateStatus);
-        window.addEventListener('offline', updateStatus);
-    </script>
+    function loadIframe(url) {
+      const iframe = document.getElementById('iframe');
+      const spinner = document.getElementById('loadingSpinner');
+
+      spinner.style.display = 'flex';  // Show loading spinner
+      iframe.style.display = 'none';   // Hide iframe while loading
+
+      iframe.src = url;
+
+      iframe.onload = function () {
+        spinner.style.display = 'none';  // Hide spinner when loaded
+        iframe.style.display = 'block';  // Show iframe
+      };
+
+      iframe.classList.add('active');
+    }
+
+    function openScriptUrl() {
+      window.open("https://script.google.com/macros/s/AKfycbzINU7YYulIXVcYcxKPKCdHXI0ElAjQQrFaKFchU2abNGV2rz_RFZMhh9ocIplsyw8rYg/exec", "_blank");
+    }
+
+    window.addEventListener('load', updateStatus);
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+  </script>
 </body>
 </html>
